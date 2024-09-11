@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navBar">
+        <button><a href="/user/login">Login</a></button>
+    </nav>
+    <h1>SIGNUP</h1>
+    <form onsubmit="signup(event)" class="container">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">SignUp</button>
+        
+    </form>
+
+    
+    <script>
+        async function signup(e){
+            try{
+                e.preventDefault();
+                console.log(e.target.email.value);
+
+                const signupDetails = {
+                    name: e.target.name.value,
+                    email:e.target.email.value,
+                    password:e.target.password.value
+                }
+
+                // console.log(signupDetails);
+
+                const response = await axios.post("http://localhost:3000/user/signup", signupDetails)
+                if(response.status === 204){
+                    window.location.href = "login";
+                } else{
+                    throw new Error("User email id already exists") ;
+                }
+            }
+            catch(err){
+                document.body.innerHTML += `<div style="color:red;">${err}</div>`
+            }
+        }
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+</body>
+</html>
